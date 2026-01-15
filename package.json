@@ -1,0 +1,45 @@
+{
+  "name": "@agent-skill/installer",
+  "version": "1.0.0",
+  "description": "CLI tool for installing and managing AI agent skills for Claude Code, Cursor, Windsurf and more",
+  "bin": {
+    "agent-skill-installer": "./bin/agent-skill-installer.js"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "agent-skill",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "installer",
+    "cli",
+    "ai-assistant",
+    "skills"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/agent-skill-installer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/agent-skill-installer/issues"
+  },
+  "homepage": "https://github.com/your-org/agent-skill-installer#readme"
+}
