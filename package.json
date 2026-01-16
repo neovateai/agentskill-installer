@@ -25,6 +25,9 @@
     "ai-assistant",
     "skills"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "surgesoft@gmail.com",
   "license": "MIT",
   "dependencies": {
