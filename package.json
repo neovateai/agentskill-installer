@@ -1,5 +1,5 @@
 {
-  "name": "@agent-skill/installer",
+  "name": "@agentskill/installer",
   "version": "1.0.0",
   "description": "CLI tool for installing and managing AI agent skills for Claude Code, Cursor, Windsurf and more",
   "bin": {
@@ -25,7 +25,7 @@
     "ai-assistant",
     "skills"
   ],
-  "author": "",
+  "author": "surgesoft@gmail.com",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
@@ -36,10 +36,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/agent-skill-installer.git"
+    "url": "https://github.com/neovateai/agentskill-installer"
   },
   "bugs": {
-    "url": "https://github.com/your-org/agent-skill-installer/issues"
+    "url": "https://github.com/neovateai/agentskill-installer/issues"
   },
-  "homepage": "https://github.com/your-org/agent-skill-installer#readme"
+  "homepage": "https://github.com/neovateai/agentskill-installer#readme"
 }
