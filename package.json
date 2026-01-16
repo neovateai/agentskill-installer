@@ -7,7 +7,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.test.js",
+    "test:watch": "mocha test/**/*.test.js --watch"
   },
   "files": [
     "bin/",
@@ -33,6 +34,10 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^11.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "chai": "^4.3.10"
   },
   "engines": {
     "node": ">=14.0.0"

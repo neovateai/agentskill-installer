@@ -41,7 +41,7 @@ function copyDirectory(src, dest) {
  * Copy skill files to target directory
  * @param {string} sourceDir - Source directory (package root)
  * @param {string} targetDir - Target installation directory
- * @param {object} config - Skill configuration
+ * @param {object} config - Skill configuration (not used, kept for compatibility)
  * @param {object} logger - Logger instance
  * @returns {Array} List of copied files
  */
@@ -62,27 +62,17 @@ function copySkillFiles(sourceDir, targetDir, config, logger) {
   copiedFiles.push('SKILL.md');
   logger.debug('Copied SKILL.md');
 
-  // Copy additional files if specified
-  if (config.files) {
-    Object.entries(config.files).forEach(([source, dest]) => {
-      const sourcePath = path.join(sourceDir, source);
-      if (!fs.existsSync(sourcePath)) {
-        logger.warn(`Warning: ${source} not found, skipping`);
-        return;
-      }
+  // Auto-detect and copy optional directories
+  const optionalDirs = ['scripts', 'references', 'assets'];
 
-      const destPath = path.join(targetDir, dest);
-
-      if (fs.statSync(sourcePath).isDirectory()) {
-        copyDirectory(sourcePath, destPath);
-        copiedFiles.push(`${source}/ (directory)`);
-        logger.debug(`Copied directory: ${source}`);
-      } else {
-        copyFile(sourcePath, destPath);
-        copiedFiles.push(source);
-        logger.debug(`Copied file: ${source}`);
-      }
-    });
+  for (const dirName of optionalDirs) {
+    const sourcePath = path.join(sourceDir, dirName);
+    if (fs.existsSync(sourcePath) && fs.statSync(sourcePath).isDirectory()) {
+      const destPath = path.join(targetDir, dirName);
+      copyDirectory(sourcePath, destPath);
+      copiedFiles.push(`${dirName}/ (directory)`);
+      logger.debug(`Copied directory: ${dirName}`);
+    }
   }
 
   return copiedFiles;

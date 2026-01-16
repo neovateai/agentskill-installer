@@ -2,26 +2,33 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Read and parse .claude-skill.json configuration
- * @param {string} configPath - Optional path to config file
+ * Read and parse package.json configuration
+ * @param {string} configPath - Optional path to package.json
  * @returns {object} Parsed configuration
  */
 function readConfig(configPath) {
-  // Auto-detect config path if not provided
+  // Auto-detect package.json path if not provided
   if (!configPath) {
     const cwd = process.env.INIT_CWD || process.cwd();
-    configPath = path.join(cwd, '.claude-skill.json');
+    configPath = path.join(cwd, 'package.json');
   }
 
   if (!fs.existsSync(configPath)) {
-    throw new Error(`.claude-skill.json not found at ${configPath}`);
+    throw new Error(`package.json not found at ${configPath}`);
   }
 
   try {
     const content = fs.readFileSync(configPath, 'utf8');
-    return JSON.parse(content);
+    const packageJson = JSON.parse(content);
+
+    // Convert package.json to simplified config format
+    return {
+      name: packageJson.name,
+      package: packageJson.name,
+      version: packageJson.version
+    };
   } catch (error) {
-    throw new Error(`Failed to parse .claude-skill.json: ${error.message}`);
+    throw new Error(`Failed to parse package.json: ${error.message}`);
   }
 }
 
@@ -45,28 +52,7 @@ function extractSkillName(packageName) {
  */
 function validateConfig(config) {
   if (!config.name) {
-    throw new Error('Configuration must have a "name" field');
-  }
-
-  if (!config.targets && !config.package) {
-    throw new Error('Configuration must have either "targets" or "package" field');
-  }
-
-  // Validate enabled targets
-  if (config.targets) {
-    const enabledTargets = Object.entries(config.targets)
-      .filter(([_, target]) => target.enabled);
-
-    if (enabledTargets.length === 0) {
-      throw new Error('At least one target must be enabled');
-    }
-
-    // Validate each enabled target
-    for (const [name, target] of enabledTargets) {
-      if (!target.paths || !target.paths.global || !target.paths.project) {
-        throw new Error(`Target "${name}" must have both global and project paths`);
-      }
-    }
+    throw new Error('package.json must have a "name" field');
   }
 }
 

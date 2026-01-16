@@ -6,7 +6,6 @@ const { getEnabledTargets, filterTargets } = require('../core/target-detector');
 const { detectContext, resolvePath, getSkillsBaseDir } = require('../core/path-resolver');
 const { copySkillFiles, removeDirectory } = require('../core/file-copier');
 const { updateManifest } = require('../core/manifest-manager');
-const { executePostInstallHooks } = require('../core/hook-executor');
 const { getLogger } = require('../utils/logger');
 
 /**
@@ -74,15 +73,8 @@ async function install(options) {
           logger.info(chalk.cyan('  [DRY RUN] Would perform the following:'));
           logger.info(`  - Create directory: ${installPath}`);
           logger.info(`  - Copy SKILL.md`);
-          if (config.files) {
-            Object.keys(config.files).forEach(file => {
-              logger.info(`  - Copy: ${file}`);
-            });
-          }
+          logger.info(`  - Auto-detect and copy: scripts/, references/, assets/`);
           logger.info(`  - Update manifest`);
-          if (config.hooks && config.hooks.postinstall && !options.hooks) {
-            logger.info(`  - Run hook: ${config.hooks.postinstall}`);
-          }
           continue;
         }
 
@@ -106,11 +98,6 @@ async function install(options) {
         const skillsBaseDir = getSkillsBaseDir(target, context);
         updateManifest(skillsBaseDir, config, installPath, target.name);
         logger.success('Updated manifest');
-
-        // Execute hooks
-        if (options.hooks !== false) {
-          executePostInstallHooks(config, installPath, logger, options.noHooks);
-        }
 
         logger.success(`Installed to ${target.name}`);
         installedPaths.push({ target: target.name, path: installPath });
@@ -158,10 +145,9 @@ async function install(options) {
 
     logger.newline();
     logger.info('Troubleshooting:');
-    logger.info('  - Ensure .claude-skill.json exists and is valid JSON');
+    logger.info('  - Ensure package.json exists and is valid JSON');
     logger.info('  - Ensure SKILL.md exists in the package root');
     logger.info('  - Check file permissions for target directories');
-    logger.info('  - Verify at least one target is enabled');
     logger.info('  - Try running with --verbose for more details');
 
     process.exit(1);

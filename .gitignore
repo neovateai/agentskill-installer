@@ -8,6 +8,8 @@ package-lock.json
 # Test coverage
 coverage/
 .nyc_output/
+test/fixtures/
+test-results/
 
 # IDE
 .vscode/
